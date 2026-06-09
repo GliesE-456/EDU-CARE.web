@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>EDU-CARE Admin | Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Admin Styles -->
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- LOGIN SCREEN                                        -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <div class="login-header">
+        <img src="logo.jpeg" alt="EDU-CARE Logo" class="login-logo">
+        <h1 class="login-title">EDU-CARE Admin</h1>
+        <p class="login-subtitle">Sign in to manage your coaching institute</p>
+      </div>
+
+      <form id="login-form" class="login-form" novalidate>
+        <div class="login-field">
+          <label for="login-email">Email Address</label>
+          <input type="email" id="login-email" placeholder="admin@educare.com" required autocomplete="email">
+        </div>
+        <div class="login-field">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <div id="login-error" class="login-error" hidden></div>
+        <button type="submit" id="login-btn" class="login-submit-btn">Sign In</button>
+      </form>
+
+      <div class="login-divider"><span>or</span></div>
+
+      <!-- First-time setup: Create admin account -->
+      <button id="toggle-register" class="login-toggle-btn">Create Admin Account (First Time)</button>
+
+      <form id="register-form" class="login-form" hidden novalidate>
+        <div class="login-field">
+          <label for="register-email">Admin Email</label>
+          <input type="email" id="register-email" placeholder="admin@educare.com" required>
+        </div>
+        <div class="login-field">
+          <label for="register-password">Password (min 6 chars)</label>
+          <input type="password" id="register-password" placeholder="••••••••" required minlength="6">
+        </div>
+        <div id="register-error" class="login-error" hidden></div>
+        <button type="submit" id="register-btn" class="login-submit-btn register-btn">Create Account & Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ADMIN DASHBOARD (hidden until authenticated)        -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div id="admin-dashboard" class="admin-dashboard" hidden>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="logo.jpeg" alt="EDU-CARE" class="sidebar-logo">
+        <span class="sidebar-brand">EDU-CARE</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="sidebar-link active" data-tab="dashboard" id="nav-dashboard">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="sidebar-link" data-tab="enquiries" id="nav-enquiries">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M12 10h2v2h-2zm0-4h2v2h-2z"/></svg>
+          <span>Enquiries</span>
+          <span class="sidebar-badge" id="enquiry-badge">0</span>
+        </button>
+        <button class="sidebar-link" data-tab="students" id="nav-students">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          <span>Students</span>
+        </button>
+        <button class="sidebar-link" data-tab="courses" id="nav-courses">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+          <span>Courses</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user" id="sidebar-user-email">admin</div>
+        <button class="sidebar-logout-btn" id="logout-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle" aria-label="Toggle sidebar">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+    </button>
+
+    <!-- Main Content Area -->
+    <main class="main-content" id="main-content">
+
+      <!-- ─── DASHBOARD TAB ─── -->
+      <section class="tab-content active" id="tab-dashboard">
+        <div class="tab-header">
+          <h2 class="tab-title">Dashboard Overview</h2>
+          <p class="tab-subtitle">Real-time snapshot of your coaching institute</p>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+          <div class="summary-card card-enquiries">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+            </div>
+            <div class="card-data">
+              <span class="card-number" id="stat-total-enquiries">0</span>
+              <span class="card-label">Total Enquiries</span>
+            </div>
+          </div>
+          <div class="summary-card card-new">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <div class="card-data">
+              <span class="card-number" id="stat-new-enquiries">0</span>
+              <span class="card-label">New (Unread)</span>
+            </div>
+          </div>
+          <div class="summary-card card-students">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            </div>
+            <div class="card-data">
+              <span class="card-number" id="stat-total-students">0</span>
+              <span class="card-label">Active Students</span>
+            </div>
+          </div>
+          <div class="summary-card card-courses">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3z"/></svg>
+            </div>
+            <div class="card-data">
+              <span class="card-number" id="stat-active-courses">0</span>
+              <span class="card-label">Active Courses</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Enquiries -->
+        <div class="dashboard-section">
+          <h3 class="section-heading">Recent Enquiries</h3>
+          <div class="table-container">
+            <table class="data-table" id="recent-enquiries-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Course</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="recent-enquiries-body">
+                <tr><td colspan="5" class="empty-state">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── ENQUIRIES TAB ─── -->
+      <section class="tab-content" id="tab-enquiries">
+        <div class="tab-header">
+          <h2 class="tab-title">Enquiries</h2>
+          <p class="tab-subtitle">Manage all student and parent enquiries</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+          <div class="filter-group">
+            <label for="enquiry-status-filter">Status:</label>
+            <select id="enquiry-status-filter">
+              <option value="all">All</option>
+              <option value="new" selected>New</option>
+              <option value="contacted">Contacted</option>
+              <option value="enrolled">Enrolled</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <input type="text" id="enquiry-search" placeholder="Search by name or phone..." class="search-input">
+          </div>
+        </div>
+
+        <!-- Enquiries Table -->
+        <div class="table-container">
+          <table class="data-table" id="enquiries-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Course</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="enquiries-body">
+              <tr><td colspan="8" class="empty-state">Loading enquiries...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ─── STUDENTS TAB ─── -->
+      <section class="tab-content" id="tab-students">
+        <div class="tab-header">
+          <div class="tab-header-flex">
+            <div>
+              <h2 class="tab-title">Students</h2>
+              <p class="tab-subtitle">Manage enrolled students and their records</p>
+            </div>
+            <button class="action-btn primary-action" id="add-student-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+              Add Student
+            </button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+          <div class="filter-group">
+            <input type="text" id="student-search" placeholder="Search students..." class="search-input">
+          </div>
+          <div class="filter-group">
+            <label for="student-status-filter">Status:</label>
+            <select id="student-status-filter">
+              <option value="all">All</option>
+              <option value="active" selected>Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Students Table -->
+        <div class="table-container">
+          <table class="data-table" id="students-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Class</th>
+                <th>Course</th>
+                <th>Batch</th>
+                <th>Status</th>
+                <th>Fees Paid</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="students-body">
+              <tr><td colspan="8" class="empty-state">Loading students...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ─── COURSES TAB ─── -->
+      <section class="tab-content" id="tab-courses">
+        <div class="tab-header">
+          <div class="tab-header-flex">
+            <div>
+              <h2 class="tab-title">Courses</h2>
+              <p class="tab-subtitle">Manage course offerings and schedules</p>
+            </div>
+            <button class="action-btn primary-action" id="add-course-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+              Add Course
+            </button>
+          </div>
+        </div>
+
+        <!-- Courses Grid -->
+        <div class="courses-admin-grid" id="courses-admin-grid">
+          <div class="empty-state-card">Loading courses...</div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- MODALS                                               -->
+  <!-- ═══════════════════════════════════════════════════ -->
+
+  <!-- Enquiry Detail Modal -->
+  <dialog id="enquiry-detail-modal" class="admin-modal">
+    <div class="admin-modal-content">
+      <button class="admin-modal-close" data-close-modal="enquiry-detail-modal" aria-label="Close">✖</button>
+      <h3 class="admin-modal-title">Enquiry Details</h3>
+      <div id="enquiry-detail-body" class="modal-detail-body">
+        <!-- Populated dynamically -->
+      </div>
+      <div class="modal-actions">
+        <div class="status-update-group">
+          <label for="enquiry-status-update">Update Status:</label>
+          <select id="enquiry-status-update">
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="enrolled">Enrolled</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <div class="notes-group">
+          <label for="enquiry-notes">Admin Notes:</label>
+          <textarea id="enquiry-notes" rows="3" placeholder="Add notes about this enquiry..."></textarea>
+        </div>
+        <div class="modal-btn-row">
+          <button class="action-btn danger-action" id="delete-enquiry-btn">Delete</button>
+          <button class="action-btn primary-action" id="save-enquiry-btn">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Student Form Modal -->
+  <dialog id="student-form-modal" class="admin-modal">
+    <div class="admin-modal-content wide-modal">
+      <button class="admin-modal-close" data-close-modal="student-form-modal" aria-label="Close">✖</button>
+      <h3 class="admin-modal-title" id="student-modal-title">Add Student</h3>
+      <form id="student-form" novalidate>
+        <input type="hidden" id="student-edit-id">
+        <div class="form-grid">
+          <div class="admin-form-field">
+            <label for="student-name">Full Name *</label>
+            <input type="text" id="student-name" required placeholder="Student full name">
+          </div>
+          <div class="admin-form-field">
+            <label for="student-phone">Phone *</label>
+            <input type="tel" id="student-phone" required placeholder="10-digit number">
+          </div>
+          <div class="admin-form-field">
+            <label for="student-email">Email</label>
+            <input type="email" id="student-email" placeholder="student@email.com">
+          </div>
+          <div class="admin-form-field">
+            <label for="student-guardian">Guardian Name</label>
+            <input type="text" id="student-guardian" placeholder="Parent/Guardian name">
+          </div>
+          <div class="admin-form-field">
+            <label for="student-guardian-phone">Guardian Phone</label>
+            <input type="tel" id="student-guardian-phone" placeholder="Guardian phone">
+          </div>
+          <div class="admin-form-field">
+            <label for="student-class">Class *</label>
+            <input type="text" id="student-class" required placeholder="e.g. Class 10, B.Sc 2nd Year">
+          </div>
+          <div class="admin-form-field">
+            <label for="student-course">Course *</label>
+            <select id="student-course" required>
+              <option value="">Select Course</option>
+              <option value="Standard IV to X (Class 4-10)">Standard IV to X (Class 4-10)</option>
+              <option value="Standard XI & XII (Class 11-12)">Standard XI & XII (Class 11-12)</option>
+              <option value="Standard Degree (GU University)">Standard Degree (GU University)</option>
+              <option value="Special Course (CA/Aptitude)">Special Course (CA/Aptitude)</option>
+            </select>
+          </div>
+          <div class="admin-form-field">
+            <label for="student-batch">Batch</label>
+            <input type="text" id="student-batch" placeholder="e.g. Morning, Evening, Weekend">
+          </div>
+          <div class="admin-form-field">
+            <label for="student-fees">Total Fees (₹)</label>
+            <input type="number" id="student-fees" placeholder="0" min="0">
+          </div>
+          <div class="admin-form-field">
+            <label for="student-fees-paid">Fees Paid (₹)</label>
+            <input type="number" id="student-fees-paid" placeholder="0" min="0">
+          </div>
+          <div class="admin-form-field">
+            <label for="student-status">Status</label>
+            <select id="student-status">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+          <div class="admin-form-field full-width">
+            <label for="student-notes">Notes</label>
+            <textarea id="student-notes" rows="3" placeholder="Any additional notes..."></textarea>
+          </div>
+        </div>
+        <div class="modal-btn-row">
+          <button type="button" class="action-btn secondary-action" data-close-modal="student-form-modal">Cancel</button>
+          <button type="submit" class="action-btn primary-action" id="save-student-btn">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Course Form Modal -->
+  <dialog id="course-form-modal" class="admin-modal">
+    <div class="admin-modal-content">
+      <button class="admin-modal-close" data-close-modal="course-form-modal" aria-label="Close">✖</button>
+      <h3 class="admin-modal-title" id="course-modal-title">Add Course</h3>
+      <form id="course-form" novalidate>
+        <input type="hidden" id="course-edit-id">
+        <div class="admin-form-field">
+          <label for="course-title">Course Title *</label>
+          <input type="text" id="course-title" required placeholder="e.g. School Foundations">
+        </div>
+        <div class="admin-form-field">
+          <label for="course-level">Level *</label>
+          <input type="text" id="course-level" required placeholder="e.g. Class 4-10 (SEBA/CBSE)">
+        </div>
+        <div class="admin-form-field">
+          <label for="course-description">Description</label>
+          <textarea id="course-description" rows="3" placeholder="Course description..."></textarea>
+        </div>
+        <div class="admin-form-field">
+          <label for="course-subjects">Subjects (comma-separated)</label>
+          <input type="text" id="course-subjects" placeholder="Mathematics, Physics, Chemistry">
+        </div>
+        <div class="admin-form-field">
+          <label for="course-schedule">Schedule</label>
+          <input type="text" id="course-schedule" placeholder="e.g. Mon-Sat 3:00-5:00 PM">
+        </div>
+        <div class="admin-form-field">
+          <label for="course-fees">Fees (₹)</label>
+          <input type="number" id="course-fees" placeholder="0" min="0">
+        </div>
+        <div class="admin-form-field">
+          <label for="course-active">
+            <input type="checkbox" id="course-active" checked> Active (visible on website)
+          </label>
+        </div>
+        <div class="modal-btn-row">
+          <button type="button" class="action-btn secondary-action" data-close-modal="course-form-modal">Cancel</button>
+          <button type="submit" class="action-btn primary-action" id="save-course-btn">Save Course</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Confirm Delete Modal -->
+  <dialog id="confirm-delete-modal" class="admin-modal">
+    <div class="admin-modal-content small-modal">
+      <h3 class="admin-modal-title">Confirm Deletion</h3>
+      <p id="confirm-delete-text">Are you sure you want to delete this item? This action cannot be undone.</p>
+      <div class="modal-btn-row">
+        <button class="action-btn secondary-action" data-close-modal="confirm-delete-modal">Cancel</button>
+        <button class="action-btn danger-action" id="confirm-delete-btn">Delete</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Admin Scripts (ES Module) -->
+  <script type="module" src="admin.js"></script>
+
+</body>
+
+</html>
